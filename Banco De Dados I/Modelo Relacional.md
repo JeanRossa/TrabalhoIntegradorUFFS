@@ -1,21 +1,19 @@
 <span style="border-bottom: 2px dashed;">Text with a dashed line underneath</span>
 
 
-filial(<ins>cod</ins>, gerente(usuario), dtInclusao, dtEncerramento, cnpj, status, nvFilial(nivelFilial), localizacao(localidade))
+filial(<ins>codFilial</ins>, gerente(usuario), dtInclusao, dtEncerramento, cnpj, status, nvFilial(nivelFilial), localizacao(localidade))
 
-tipoUsuario(<ins>cod</ins>, descricao)
-
-usuario(<ins>cod</ins>, nome, cpf, login*, email*, senha, status, dtInclusao, dtEncerramento, tipo(tipoUsuario), filial(filial))
+usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status, dtInclusao, dtEncerramento, tipo, filial(filial))
 
 localidade(<ins>cidade</ins>, <ins>estado</ins>)
 
-nivelFilial(<ins>nivel</ins>, <ins>descricao</ins>)
+nivelFilial(<ins>nivelFilial</ins>, descricao)
 
-nivelVendedor(<ins>nivel</ins>, descricao, metaVendedor(metaVendededor))
+nivelVendedor(<ins>nivelVendedor</ins>, descricao)
 
-metaFilial(<ins>nvFilial(nivelFilial)</ins>, <ins>vigencia</ins>, bonVendedor, bonGerente)
+metaFilial(<ins>nivelFilial(nivelFilial)</ins>, <ins>vigencia</ins>, bonVendedor, bonGerente)
 
-metaVendedor(<ins>vigencia</ins>, pctgMeta, bonificacao)
+metaVendedor(<ins>vigencia, nivelVend(nivelVendedor)</ins>, pctgMeta, bonificacao)
 
 venda(<ins>vendedor(usuario)</ins>, <ins>data</ins>, valorFaturado, filial(filial))
  
