@@ -1,15 +1,21 @@
-filial(<ins>codFilial</ins>, gerente(usuario), dtInclusao, dtEncerramento, cnpj, status, nivelFilial(nivelFilial), localizacao(localidade))
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
 
-usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status, dtInclusao, dtEncerramento, tipo, filial(filial), nivelVendedor(nivelVendedor)) ----> deixar filial e nivel vendedor sublinhados com pontilhados pois nao sao obrigatorios
+    filial(<ins>codFilial</ins>, gerente(usuario), dtInclusao, dtEncerramento, cnpj, status, nivelFilial(nivelFilial),
+    localizacao(localidade))
 
-localidade(<ins>cidade</ins>, <ins>estado</ins>)
+    usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status, dtInclusao, dtEncerramento, tipo, <span
+        class="dashed-line">filial</span>(filial), <span class="dashed-line">nivelVendedor</span>(nivelVendedor))
 
-nivelFilial(<ins>nivelFilial</ins>, descricao)
+    localidade(<ins>cidade</ins>, <ins>estado</ins>)
 
-nivelVendedor(<ins>nivelVendedor</ins>, descricao)
+    nivelFilial(<ins>nivelFilial</ins>, descricao)
 
-metaFilial(<ins>nivelFilial</ins>(nivelFilial), <ins>vigencia</ins>, bonVendedor, bonGerente)
+    nivelVendedor(<ins>nivelVendedor</ins>, descricao)
 
-metaVendedor(<ins>nivelVend</ins>(nivelVendedor),<ins>Vigência</ins>, pctgMeta, bonificacao)
+    metaFilial(<ins>nivelFilial</ins>(nivelFilial), <ins>vigencia</ins>, bonVendedor, bonGerente)
 
-venda(<ins>vendedor</ins>(usuario), <ins>data</ins>, valorFaturado, filial(filial))
+    metaVendedor(<ins>nivelVend</ins>(nivelVendedor),<ins>Vigência</ins>, pctgMeta, bonificacao)
+
+    venda(<ins>vendedor</ins>(usuario), <ins>data</ins>, valorFaturado, filial(filial))
