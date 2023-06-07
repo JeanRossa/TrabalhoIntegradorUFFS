@@ -1,0 +1,26 @@
+<head>
+    <title>Modelo Relacional</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <p>filial(<ins>codFilial</ins>, gerente(usuario), dtInclusao, dtEncerramento, cnpj, status,
+        nivelFilial(nivelFilial),
+        localizacao(localidade))</p>
+
+    <p>usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status, dtInclusao, dtEncerramento, tipo, <span
+            class="dashed-line">filial</span>(filial), <span class="dashed-line">nivelVendedor</span>(nivelVendedor))
+    </p>
+
+    <p>localidade(<ins>cidade</ins>, <ins>estado</ins>)</p>
+
+    <p>nivelFilial(<ins>nivelFilial</ins>, descricao)</p>
+
+    <p>nivelVendedor(<ins>nivelVendedor</ins>, descricao)</p>
+
+    <p>metaFilial(<ins>nivelFilial</ins>(nivelFilial), <ins>vigencia</ins>, bonVendedor, bonGerente)</p>
+
+    <p>metaVendedor(<ins>nivelVend</ins>(nivelVendedor),<ins>Vigência</ins>, pctgMeta, bonificacao)</p>
+
+    <p>venda(<ins>vendedor</ins>(usuario), <ins>data</ins>, valorFaturado, filial(filial))</p>
+</body>
