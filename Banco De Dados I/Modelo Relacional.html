@@ -4,15 +4,16 @@
 </head>
 
 <body>
-    <p>filial(<ins>codFilial</ins>, dtInclusao, dtEncerramento, cnpj, status,
+    <p>filial(<ins>codFilial</ins>, dtInclusao, <span class="dashed-line">dtEncerramento</span>, cnpj, status_filial,
         nivelFilial(nivelFilial),
         localizacao(localidade))</p>
 
-    <p>usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status, dtInclusao, dtEncerramento, tipo, <span
-            class="dashed-line">filial</span>(filial), <span class="dashed-line">nivelVendedor</span>(nivelVendedor))
+    <p>usuario(<ins>codUsuario</ins>, nome, cpf, login, email, senha, status_usuario, dtInclusao, <span
+            class="dashed-line">dtEncerramento</span>, tipo, <span class="dashed-line">filial</span>(filial), <span
+            class="dashed-line">nivelVendedor</span>(nivelVendedor))
     </p>
 
-    <p>localidade(<ins>cidade</ins>, <ins>estado</ins>)</p>
+    <p>localidade(<ins>codLocalidade</ins>, cidade, estado)</p>
 
     <p>nivelFilial(<ins>nivelFilial</ins>, descricao)</p>
 
@@ -23,4 +24,5 @@
     <p>metaVendedor(<ins>nivelVend</ins>(nivelVendedor),<ins>Vigência</ins>, pctgMeta, bonificacao)</p>
 
     <p>venda(<ins>vendedor</ins>(usuario), <ins>data</ins>, valorFaturado, filial(filial))</p>
+
 </body>
