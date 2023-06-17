@@ -1,26 +1,55 @@
 {% load static %}
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <title>login</title>  
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">  
-    <script src="/static/js/bootstrap.min.js"></script>  
-</head>  
-<body>  
- <form action="/save" method="post">  
-  <div class="form-group">  
-    <label for="email">Email address:</label>  
-    <input type="email" class="form-control" id="email">  
-  </div>  
-  <div class="form-group">  
-    <label for="pwd">Password:</label>  
-    <input type="password" class="form-control" id="pwd">  
-  </div>  
-  <div class="checkbox">  
-    <label><input type="checkbox"> Remember me</label>  
-  </div>  
-  <button type="submit" class="btn btn-primary">Submit</button>  
-</form>  
-</body>  
-</html>  
+<!doctype html>
+
+	<html lang="en">
+    <head>
+      	<meta charset="utf-8">
+      	<title>Sistema de Metas</title>
+      
+      	<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+      	<link href="/static/css/sidebars.css" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="/static/js/sidebars.js"></script>
+
+
+    </head>
+  	
+	<body>
+		<div id="wrapper">
+			<div class="overlay"></div>
+			 
+				<!-- Sidebar -->
+				<nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+			  		<ul class="nav sidebar-nav">
+						<div class="sidebar-header">
+							<div class="sidebar-brand">
+				  				<a href="#">Sistema de Metas</a>
+							</div>
+						</div>
+						<li><a href="#home">Dashboard</a></li>
+						<li><a href="#about">Cadastro de Filiais</a></li>
+						<li><a href="#events">Cadastro de Usuários</a></li>
+						<li><a href="#team">Cadastro de Localidades</a></li>
+			   			<li><a href="#services">Níveis de Filial</a></li>
+			   			<li><a href="#contact">Níveis de Vendedor</a></li>
+			   			<li><a href="#followme">Configurar Meta de Filial</a></li>
+			   			<li><a href="#followme">Configurar Meta de Vendedor</a></li>
+			   			<li><a href="#followme">Relatórios</a></li>
+			   			<li><a href="#followme">Configurações</a></li>
+			   		</ul>
+		   		</nav>
+				 <!-- /#sidebar-wrapper -->
+
+				<div id="page-content-wrapper">
+					<button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+						<span class="hamb-top"></span>
+						<span class="hamb-middle"></span>
+						<span class="hamb-bottom"></span>
+					</button>
+					<div class="container">
+						 
+					</div>
+				</div>
+			</div>
+  	</body>
+</html>
