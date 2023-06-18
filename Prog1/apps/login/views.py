@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from login.forms import LoginForms
+from apps.login.forms import LoginForms
 from django.contrib import auth, messages
 # Create your views here.
 
