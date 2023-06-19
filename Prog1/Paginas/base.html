@@ -8,8 +8,10 @@
       
       	<link href="{%static '/css/bootstrap.min.css'%}" rel="stylesheet">
       	<link href="{%static '/css/sidebars.css'%}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 		<script src="{%static '/js/sidebars.js'%}"></script>
+		<script src="{%static '/js/bootstrap.min.js'%}"></script>
 
     </head>
   	
@@ -22,19 +24,19 @@
 			  		<ul class="nav sidebar-nav">
 						<div class="sidebar-header">
 							<div class="sidebar-brand">
-				  				<a href="#">Sistema de Metas</a>
+				  				<a href="#">Bem vindo, {{ user.get_username }}</a>
 							</div>
 						</div>
-						<li><a href="#home">Dashboard</a></li>
-						<li><a href="#about">Cadastro de Filiais</a></li>
-						<li><a href="#events">Cadastro de Usuários</a></li>
-						<li><a href="#team">Cadastro de Localidades</a></li>
-			   			<li><a href="#services">Níveis de Filial</a></li>
-			   			<li><a href="#contact">Níveis de Vendedor</a></li>
-			   			<li><a href="#followme">Configurar Meta de Filial</a></li>
-			   			<li><a href="#followme">Configurar Meta de Vendedor</a></li>
-			   			<li><a href="#followme">Relatórios</a></li>
-			   			<li><a href="#followme">Configurações</a></li>
+						<li><a href="">Dashboard</a></li>
+						<li><a href="">Cadastro de Filiais</a></li>
+						<li><a href="{% url 'crud_usuario' %}">Cadastro de Usuários</a></li>
+						<li><a href="">Cadastro de Localidades</a></li>
+			   			<li><a href="">Níveis de Filial</a></li>
+			   			<li><a href="">Níveis de Vendedor</a></li>
+			   			<li><a href="">Configurar Meta de Filial</a></li>
+			   			<li><a href="">Configurar Meta de Vendedor</a></li>
+			   			<li><a href="">Relatórios</a></li>
+			   			<li><a href="">Perfil</a></li>
 			   		</ul>
 		   		</nav>
 				 <!-- /#sidebar-wrapper -->

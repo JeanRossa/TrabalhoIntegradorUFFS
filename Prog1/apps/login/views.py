@@ -20,7 +20,7 @@ def logar (request):
 
         if usuario is not None:
             auth.login(request, usuario)
-            messages.success(request, "Login realizado com sucesso")
+            return redirect('DashBoardADM')
         else:
             messages.error(request, "Login ou senha incorretos!")
             return redirect('logar')

@@ -23,6 +23,9 @@ class Filial(models.Model):
         db_table = 'filial'
         unique_together = (('cnpj', 'dtencerramento'),)
 
+    def __str__(self):
+        return "Filial " + str(self.codfilial)
+
 
 class Localidade(models.Model):
     codlocal = models.AutoField(primary_key=True)
@@ -76,6 +79,9 @@ class Nivelvendedor(models.Model):
         managed = False
         db_table = 'nivelvendedor'
 
+    def __str__(self):
+        return "Nivel " + self.nivelvendedor + " - " + self.descricao
+
 
 class Usuario(models.Model):
 
@@ -95,7 +101,7 @@ class Usuario(models.Model):
     cpf = models.CharField(unique=True, max_length=11)
     login = models.CharField(max_length=256)
     senha = models.CharField(max_length=256)
-    status = models.IntegerField(choices=OPC_STATUS)
+    status = models.IntegerField(default=1, choices=OPC_STATUS)
     dtinclusao = models.DateField(default=datetime.now)
     dtencerramento = models.DateField(blank=True, null=True)
     tipo = models.IntegerField(choices=OPC_TIPO)
