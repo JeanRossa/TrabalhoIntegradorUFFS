@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{%static '/css/bootstrap.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+    <title>Metas - Login</title>
+</head>
+
+<body>
+    <section class="vh-100" style="background-color: #353131;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    {% include 'Partials/_alertas.html' %}
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                            <img src="{%static '/img/login-img.png'%}"
+                                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;"/>
+                            </div>
+                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">                                  
+                                    <div class="d-flex align-items-center mb-3 pb-1">
+                                        <img src = "{%static '/img/logo.png'%}" width="50" height="50" class="me-3">
+                                        <span class="h1 fw-bold mb-0">Metas</span>
+                                    </div>
+                                    
+                                    <h5 class="fw-normal mb-1 pb-2" style="letter-spacing: 1px;">Entre na Sua Conta</h5>
+
+                                    <form action="{% url 'logar' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            {% for field in form.visible_fields %}
+
+                                            <div class="form-outline mb-4">
+                                                <label class="form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
+                                                {{ field }}
+                                            </div>
+
+                                            {% endfor %}
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

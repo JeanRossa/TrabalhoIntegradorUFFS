@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Todo o conteúdo da pagina vai aqui -->
+    {% include 'Partials/_alertas.html' %}
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Novo usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <form action="{% url 'crud_usuario' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="row">
+
+                            {% for field in form.visible_fields %}
+                            <div class="form-outline mb-4">
+                                <label class="form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
+                                {{ field }}
+                            </div>                            
+                            {% endfor %}
+
+                        </div>
+                            
+                    </div>
+                    <div class="modal-footer">
+                        <button type="sumbit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        
+        <div class="table-title">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h2>Cadastro de <b>Usuários</b></h2>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="d-flex p-2 flex-row-reverse">
+                        <div class="p-1">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                                <i class="bi bi-plus"></i> <span>Novo</span>
+                            </button>
+                        </div>
+                        <div class="p-1">
+                            <a href="#addEmployeeModal" class="btn btn-secondary" data-toggle="modal"> <i class="bi bi-eye"></i> <span>Visualizar</span></a>
+                        </div>
+                        <div class="p-1">
+                            <a href="#addEmployeeModal" class="btn btn-secondary" data-toggle="modal"> <i class="bi bi-pencil"></i> <span>Editar</span></a>
+                        </div>
+                        <div class="p-1">
+                            <a href="#deleteEmployeeModal" class="btn btn-danger float-right" data-toggle="modal"> <i class="bi bi-trash"></i> <span>Apagar</span></a>						
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-striped table-hover">
+            <!-- Cabeçalho -->
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Dt. Inclusão</th>
+                    <th>Cargo</th>
+                    <th>Filial</th>
+                    <th>Nivel</th>
+                </tr>
+            </thead>
+            <!-- Linhas -->
+            <tbody>
+                {% for Usuario in users %}
+                <tr>
+                    <td>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
+                            <label for="checkbox1"></label>
+                        </span>
+                    </td>
+                    <td>{{Usuario.codusuario}}</td>
+                    <td>{{Usuario.nome}}</td>
+                    <td>{{Usuario.dtinclusao}}</td>
+                    <td>
+                        {% if Usuario.tipo == 1%}
+                            Administrador
+                        {%endif%}
+                        {% if Usuario.tipo == 2%}
+                            Gerente
+                        {%endif%}
+                        {% if Usuario.tipo == 3%}
+                            Vendedor
+                        {%endif%}
+                    </td>
+                    <td>
+                        {% if Usuario.filial == null%}
+    
+                        {%else%}
+                            {{Usuario.filial}}
+                        {%endif%}
+                    </td>
+                    <td>
+                        {% if Usuario.filial == null%}
+                            
+                        {%else%}
+                            {{Usuario.nivelvendedor}}
+                        {%endif%}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+
+{% endblock %}
