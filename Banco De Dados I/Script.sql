@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS usuario(
    dtInclusao date NOT NULL,
    dtEncerramento date NULL,
    tipo INTEGER NOT NULL,
-   filial INTEGER NOT NULL,
+   filial INTEGER NULL,
    nivelVendedor char(3) NULL,
    CONSTRAINT pk_usuario PRIMARY KEY (codUsuario),
    CONSTRAINT uk_cpf UNIQUE (cpf, dtEncerramento),
