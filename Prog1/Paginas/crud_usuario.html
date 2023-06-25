@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block content %}
-    <!-- Todo o conteúdo da pagina vai aqui -->
+    <!-- Partials é o elemento que aparece as mensagens de erro/sucesso -->
     {% include 'Partials/_alertas.html' %}
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal de operaçõs (Telinha flutuante) -->
+    <div class="modal fade" id="ModalInclusao" tabindex="-1" aria-labelledby="ModalInclusaoLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Novo usuário</h5>
+                    <h5 class="modal-title" id="ModalInclusaoLabel">Novo usuário</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
+
                 <form action="{% url 'crud_usuario' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
@@ -22,14 +22,14 @@
                             <div class="form-outline mb-4">
                                 <label class="form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
                                 {{ field }}
-                            </div>                            
+                            </div>
                             {% endfor %}
 
                         </div>
-                            
+
                     </div>
                     <div class="modal-footer">
-                        <button type="sumbit" class="btn btn-primary">Salvar</button>
+                        <button type="sumbit" class="btn btn-primary" id="id_btnok">Salvar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="table-wrapper">
-        
+
         <div class="table-title">
             <div class="row">
                 <div class="col-12 col-md-6">
@@ -47,19 +47,24 @@
                 <div class="col-12 col-md-6">
                     <div class="d-flex p-2 flex-row-reverse">
                         <div class="p-1">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-
+                            <button type="button" class="btn btn-success" id="btn_incluir">
                                 <i class="bi bi-plus"></i> <span>Novo</span>
                             </button>
                         </div>
                         <div class="p-1">
-                            <a href="#addEmployeeModal" class="btn btn-secondary" data-toggle="modal"> <i class="bi bi-eye"></i> <span>Visualizar</span></a>
+                            <button type="button" class="btn btn-secondary" id="btn_visualizar">
+                                <i class="bi bi-eye"></i> <span>Visualizar</span>
+                            </button>
                         </div>
                         <div class="p-1">
-                            <a href="#addEmployeeModal" class="btn btn-secondary" data-toggle="modal"> <i class="bi bi-pencil"></i> <span>Editar</span></a>
+                            <button type="button" class="btn btn-secondary" id="btn_editar">
+                                <i class="bi bi-pencil"></i> <span>Editar</span>
+                            </button>
                         </div>
                         <div class="p-1">
-                            <a href="#deleteEmployeeModal" class="btn btn-danger float-right" data-toggle="modal"> <i class="bi bi-trash"></i> <span>Apagar</span></a>						
+                            <button type="button" class="btn btn-danger" id="btn_apagar">
+                                <i class="bi bi-trash"></i> <span>Excluir</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -69,6 +74,7 @@
             <!-- Cabeçalho -->
             <thead>
                 <tr>
+                    <th></th>
                     <th></th>
                     <th>Código</th>
                     <th>Nome</th>
@@ -82,10 +88,14 @@
             <tbody>
                 {% for Usuario in users %}
                 <tr>
+                    {% if Usuario.status == 1%}
+                    <td style="background-color: rgb(50, 223, 27);"></td>
+                    {% else %}
+                    <td style="background-color: rgb(219, 30, 30);"></td>
+                    {%endif%}
                     <td>
                         <span class="custom-checkbox">
-                            <input type="checkbox" id="checkbox1" name="options[]" value="1">
-                            <label for="checkbox1"></label>
+                            <input type="checkbox" name="checkbox_users" id="{{Usuario.codusuario}}" value="{{forloop.counter0}}">
                         </span>
                     </td>
                     <td>{{Usuario.codusuario}}</td>
@@ -104,14 +114,14 @@
                     </td>
                     <td>
                         {% if Usuario.filial == null%}
-    
+
                         {%else%}
                             {{Usuario.filial}}
                         {%endif%}
                     </td>
                     <td>
-                        {% if Usuario.filial == null%}
-                            
+                        {% if Usuario.nivelvendedor == null%}
+
                         {%else%}
                             {{Usuario.nivelvendedor}}
                         {%endif%}
@@ -121,6 +131,6 @@
             </tbody>
         </table>
     </div>
-    
+    <script src="{%static '/js/checkboxes.js'%}"></script>
 
 {% endblock %}

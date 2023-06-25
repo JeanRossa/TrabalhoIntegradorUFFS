@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.login.apps.LoginConfig',
-    'apps.dashboard.apps.DashboardConfig'
+    'apps.dashboard.apps.DashboardConfig',
+    'apps.requests.apps.RequestsConfig',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,6 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
     messages.SUCCESS: 'success'
 }
+
+LOGIN_URL = 'logar'
+LOGIN_REDIRECT_URL = 'logar'

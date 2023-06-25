@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS usuario(
    filial INTEGER NOT NULL,
    nivelVendedor char(3) NULL,
    CONSTRAINT pk_usuario PRIMARY KEY (codUsuario),
-   CONSTRAINT uk_cpf UNIQUE (cpf),
+   CONSTRAINT uk_cpf UNIQUE (cpf, dtEncerramento),
    CONSTRAINT fk_filial FOREIGN KEY (filial) REFERENCES filial(codFilial),
    CONSTRAINT fk_nivelVendedor FOREIGN KEY (nivelVendedor) REFERENCES nivelVendedor(nivelVendedor)
 );

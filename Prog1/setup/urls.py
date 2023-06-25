@@ -19,6 +19,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.login.urls')),
+    path('', include('apps.login.urls'), name = 'login_redirect'),
     path('dashboard/', include('apps.dashboard.urls')),
+    path('request/', include('apps.requests.urls'))
 ]

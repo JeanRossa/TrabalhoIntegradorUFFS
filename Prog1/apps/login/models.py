@@ -98,11 +98,11 @@ class Usuario(models.Model):
 
     codusuario = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=256)
-    cpf = models.CharField(unique=True, max_length=11)
+    cpf = models.CharField(max_length=11)
     login = models.CharField(max_length=256)
     senha = models.CharField(max_length=256)
     status = models.IntegerField(default=1, choices=OPC_STATUS)
-    dtinclusao = models.DateField(default=datetime.now)
+    dtinclusao = models.DateField(default=datetime.now, blank=True)
     dtencerramento = models.DateField(blank=True, null=True)
     tipo = models.IntegerField(choices=OPC_TIPO)
     filial = models.ForeignKey(Filial, models.DO_NOTHING, db_column='filial', blank=True, null=True)
@@ -111,7 +111,6 @@ class Usuario(models.Model):
     class Meta:
         managed = False
         db_table = 'usuario'
-
 
 class Venda(models.Model):
     codvendedor = models.IntegerField(primary_key=True)  # The composite primary key (codvendedor, datavenda) found, that is not supported. The first column is selected.
