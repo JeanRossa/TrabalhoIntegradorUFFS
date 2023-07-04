@@ -21,3 +21,4 @@ Conteúdos:
 Conteúdos
 * Modelo Conceitual (Arquivo .PNG e .brM3) 
 * Modelo Relacional (Arquivo .MD)
+* Modelo Relacional Lógico (Arquivo .PNG): <a href="https://erd.dbdesigner.net/designer/schema/1686152262-trabalho" style="color: white; text-decoration: none;">Projeto no DBDesigner</a>
