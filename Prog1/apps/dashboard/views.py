@@ -282,6 +282,7 @@ def crud_localidade(request):
                         request, "Ocorreu um erro ao editar a localidade")
                     return redirect('crud_localidade')
                 messages.success(request, "Localidade editada com sucesso")
+                return redirect('crud_localidade')
 
             if operation == '4':
                 cidade1 = form['cidade'].value()
@@ -302,6 +303,7 @@ def crud_localidade(request):
                     messages.error(request, "Ocorreu um erro")
                     return redirect('crud_localidade')
                 messages.success(request, "Exclusão realizada com sucesso.")
+                return redirect('crud_localidade')
         else:
             # Ocorreram erros nas validações de campo, retornar para o front-end os erros
             for field in form:
