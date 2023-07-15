@@ -1,58 +1,60 @@
 {% load static %}
 <!doctype html>
 
-	<html lang="PT-BR">
-    <head>
-      	<meta charset="utf-8">
-      	<title>Sistema de Metas</title>
+<html lang="PT-BR">
 
-      	<link href="{%static '/css/bootstrap.min.css'%}" rel="stylesheet">
-      	<link href="{%static '/css/sidebars.css'%}" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-		<script src="{%static '/js/sidebars.js'%}"></script>
-		<script src="{%static '/js/bootstrap.min.js'%}"></script>
+<head>
+	<meta charset="utf-8">
+	<title>Sistema de Metas</title>
 
-    </head>
+	<link href="{%static '/css/bootstrap.min.css'%}" rel="stylesheet">
+	<link href="{%static '/css/sidebars.css'%}" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="{%static '/js/sidebars.js'%}"></script>
+	<script src="{%static '/js/bootstrap.min.js'%}"></script>
 
-	<body>
-        <div id="wrapper">
-			<div class="overlay"></div>
+</head>
 
-				<!-- Sidebar -->
-				<nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
-			  		<ul class="nav sidebar-nav">
-						<div class="sidebar-header">
-							<div class="sidebar-brand">
-				  				<a href="#">Bem vindo, {{ user.get_username }}</a>
-							</div>
-						</div>
-						<li><a href="">Dashboard</a></li>
-						<li><a href="">Cadastro de Filiais</a></li>
-						<li><a href="{% url 'crud_usuario' %}">Cadastro de Usuários</a></li>
-						<li><a href="">Cadastro de Localidades</a></li>
-			   			<li><a href="">Níveis de Filial</a></li>
-			   			<li><a href="">Níveis de Vendedor</a></li>
-			   			<li><a href="">Configurar Meta de Filial</a></li>
-			   			<li><a href="">Configurar Meta de Vendedor</a></li>
-			   			<li><a href="">Relatórios</a></li>
-			   			<li><a href="">Perfil</a></li>
-			   		</ul>
-		   		</nav>
-				 <!-- /#sidebar-wrapper -->
+<body>
+	<div id="wrapper">
+		<div class="overlay"></div>
 
-				<div id="page-content-wrapper">
-					<button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-						<span class="hamb-top"></span>
-						<span class="hamb-middle"></span>
-						<span class="hamb-bottom"></span>
-					</button>
-					<div class="container">
-                        {% block content %}{% endblock %}
+		<!-- Sidebar -->
+		<nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+			<ul class="nav sidebar-nav">
+				<div class="sidebar-header">
+					<div class="sidebar-brand">
+						<a href="#">Bem vindo, {{ user.get_username }}</a>
 					</div>
 				</div>
+				<li><a href="">Dashboard</a></li>
+				<li><a href="">Cadastro de Filiais</a></li>
+				<li><a href="{% url 'crud_usuario' %}">Cadastro de Usuários</a></li>
+				<li><a href="{% url 'crud_localidade' %}">Cadastro de Localidades</a></li>
+				<li><a href="">Níveis de Filial</a></li>
+				<li><a href="">Níveis de Vendedor</a></li>
+				<li><a href="">Configurar Meta de Filial</a></li>
+				<li><a href="">Configurar Meta de Vendedor</a></li>
+				<li><a href="">Relatórios</a></li>
+				<li><a href="">Perfil</a></li>
+			</ul>
+		</nav>
+		<!-- /#sidebar-wrapper -->
+
+		<div id="page-content-wrapper">
+			<button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+				<span class="hamb-top"></span>
+				<span class="hamb-middle"></span>
+				<span class="hamb-bottom"></span>
+			</button>
+			<div class="container">
+				{% block content %}{% endblock %}
 			</div>
-        </div>
-    </body>
+		</div>
+	</div>
+	</div>
+</body>
+
 </html>

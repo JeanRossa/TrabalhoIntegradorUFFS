@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Partials é o elemento que aparece as mensagens de erro/sucesso -->
+{% include 'Partials/_alertas.html' %}
+<!-- Modal de operaçõs (Telinha flutuante) -->
+<div class="modal fade" id="ModalInclusao" tabindex="-1" aria-labelledby="ModalInclusaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalInclusaoLabel">Nova Localidade</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="{% url 'crud_localidade' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+
+                        {% for field in form.visible_fields %}
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="sumbit" class="btn btn-primary" id="id_btnok">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+
+    <div class="table-title">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>Cadastro de <b>Localidades</b></h2>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="d-flex p-2 flex-row-reverse">
+                    <div class="p-1">
+                        <button type="button" class="btn btn-success" id="btn_incluir">
+                            <i class="bi bi-plus"></i> <span>Novo</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-secondary" id="btn_visualizar">
+                            <i class="bi bi-eye"></i> <span>Visualizar</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-secondary" id="btn_editar">
+                            <i class="bi bi-pencil"></i> <span>Editar</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-danger" id="btn_apagar">
+                            <i class="bi bi-trash"></i> <span>Excluir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <!-- Cabeçalho -->
+        <thead>
+            <tr>
+                <th></th>
+                <th>Código</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <!-- Linhas -->
+        <tbody>
+            {% for Localidade in sites %}
+            <tr>
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" name="checkbox_sites" id="{{Localidade.codlocal}}"
+                            value="{{forloop.counter0}}">
+                    </span>
+                </td>
+                <td>{{Localidade.codlocal}}</td>
+                <td>{{Localidade.cidade}}</td>
+                <td>{{Localidade.estado}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="{%static '/js/crud_localidade.js'%}"></script>
+
+{% endblock %}
