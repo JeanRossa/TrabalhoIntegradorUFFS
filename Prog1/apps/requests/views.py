@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from apps.login.models import Usuario
+from apps.login.models import Usuario, Localidade
 # Create your views here.
 
 def getUsuarios(request):
@@ -19,3 +19,8 @@ def getUsuarios(request):
         nv = user.nivelvendedor.nivelvendedor
 
     return JsonResponse({"nome":user.nome, "cpf":user.cpf, "login":user.login, "senha":"*********", "status":user.status, "dtInclusao":user.dtinclusao, "dtencerramento":user.dtencerramento, "tipo":user.tipo, "filial":filial, "nivelvendedor":nv})
+
+def getLocalidades(request):
+    codlocal = request.GET.get('cod')
+    site = Localidade.objects.get(codlocal=codlocal)
+    return JsonResponse({"cidade": site.cidade, 'estado': site.estado})

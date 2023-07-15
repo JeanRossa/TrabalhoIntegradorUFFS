@@ -15,8 +15,10 @@ class Filial(models.Model):
     dtencerramento = models.DateField(blank=True, null=True)
     cnpj = models.CharField(max_length=14)
     status = models.IntegerField()
-    nivelfilial = models.ForeignKey('Nivelfilial', models.DO_NOTHING, db_column='nivelfilial')
-    codlocal = models.ForeignKey('Localidade', models.DO_NOTHING, db_column='codlocal')
+    nivelfilial = models.ForeignKey(
+        'Nivelfilial', models.DO_NOTHING, db_column='nivelfilial')
+    codlocal = models.ForeignKey(
+        'Localidade', models.DO_NOTHING, db_column='codlocal')
 
     class Meta:
         managed = False
@@ -28,18 +30,50 @@ class Filial(models.Model):
 
 
 class Localidade(models.Model):
+
+    UF = [
+        ("AC", "Acre"),
+        ("AL", "Alagoas"),
+        ("AP", "Amapá"),
+        ("AM", "Amazonas"),
+        ("BA", "Bahia"),
+        ("CE", "Ceará"),
+        ("DF", "Distrito Federal"),
+        ("ES", "Espírito Santo"),
+        ("GO", "Goiás"),
+        ("MA", "Maranhão"),
+        ("MT", "Mato Grosso"),
+        ("MS", "Mato Grosso do Sul"),
+        ("MG", "Minas Gerais"),
+        ("PA", "Pará"),
+        ("PB", "Paraíba"),
+        ("PR", "Paraná"),
+        ("PE", "Pernambuco"),
+        ("PI", "Piauí"),
+        ("RJ", "Rio de Janeiro"),
+        ("RN", "Rio Grande do Norte"),
+        ("RS", "Rio Grande do Sul"),
+        ("RO", "Rondônia"),
+        ("RR", "Roraima"),
+        ("SC", "Santa Catarina"),
+        ("SP", "São Paulo"),
+        ("SE", "Sergipe"),
+        ("TO", "Tocantins"),
+    ]
+
     codlocal = models.AutoField(primary_key=True)
     cidade = models.CharField(max_length=20)
-    estado = models.CharField(max_length=2)
+    estado = models.CharField(choices=UF)
 
     class Meta:
         managed = False
         db_table = 'localidade'
-        unique_together = (('cidade', 'estado'),)
+        # unique_together = (('cidade', 'estado'),)
 
 
 class Metafilial(models.Model):
-    nivelfilial = models.CharField(primary_key=True, max_length=3)  # The composite primary key (nivelfilial, vigencia) found, that is not supported. The first column is selected.
+    # The composite primary key (nivelfilial, vigencia) found, that is not supported. The first column is selected.
+    nivelfilial = models.CharField(primary_key=True, max_length=3)
     vigencia = models.CharField(max_length=6)
     bonvendedor = models.FloatField()
     bongerente = models.FloatField()
@@ -51,7 +85,9 @@ class Metafilial(models.Model):
 
 
 class Metavendedor(models.Model):
-    nivelvendedor = models.OneToOneField('Nivelvendedor', models.DO_NOTHING, db_column='nivelvendedor', primary_key=True)  # The composite primary key (nivelvendedor, vigencia) found, that is not supported. The first column is selected.
+    # The composite primary key (nivelvendedor, vigencia) found, that is not supported. The first column is selected.
+    nivelvendedor = models.OneToOneField(
+        'Nivelvendedor', models.DO_NOTHING, db_column='nivelvendedor', primary_key=True)
     vigencia = models.CharField(max_length=6)
     pctgmeta = models.FloatField()
     bonificacao = models.FloatField()
@@ -105,18 +141,23 @@ class Usuario(models.Model):
     dtinclusao = models.DateField(default=datetime.now, blank=True)
     dtencerramento = models.DateField(blank=True, null=True)
     tipo = models.IntegerField(choices=OPC_TIPO)
-    filial = models.ForeignKey(Filial, models.DO_NOTHING, db_column='filial', blank=True, null=True)
-    nivelvendedor = models.ForeignKey(Nivelvendedor, models.DO_NOTHING, db_column='nivelvendedor', blank=True, null=True)
+    filial = models.ForeignKey(
+        Filial, models.DO_NOTHING, db_column='filial', blank=True, null=True)
+    nivelvendedor = models.ForeignKey(
+        Nivelvendedor, models.DO_NOTHING, db_column='nivelvendedor', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'usuario'
 
+
 class Venda(models.Model):
-    codvendedor = models.IntegerField(primary_key=True)  # The composite primary key (codvendedor, datavenda) found, that is not supported. The first column is selected.
+    # The composite primary key (codvendedor, datavenda) found, that is not supported. The first column is selected.
+    codvendedor = models.IntegerField(primary_key=True)
     datavenda = models.DateField()
     valorfaturado = models.FloatField()
-    filial = models.OneToOneField(Filial, models.DO_NOTHING, db_column='filial')
+    filial = models.OneToOneField(
+        Filial, models.DO_NOTHING, db_column='filial')
 
     class Meta:
         managed = False

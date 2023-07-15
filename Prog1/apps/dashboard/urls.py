@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.dashboard.views import DashBoardADM, crud_usuario
+from apps.dashboard.views import DashBoardADM, crud_usuario, crud_localidade
 
 urlpatterns = [
     path('', DashBoardADM, name="DashBoardADM"),
-    path('crud_usuario/', crud_usuario, name="crud_usuario")
+    path('crud_usuario/', crud_usuario, name="crud_usuario"),
+    path('crud_localidade/', crud_localidade, name="crud_localidade")
 ]
