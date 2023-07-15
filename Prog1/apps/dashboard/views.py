@@ -266,11 +266,11 @@ def crud_localidade(request):
                 return redirect('crud_localidade')
 
             if operation == '3':
+                codigo = request.COOKIES.get('codigo')
                 cidade2 = form['cidade'].value()
                 estado2 = form['estado'].value()
 
-                localidade = Localidade.objects.get(
-                    cidade=cidade2, estado=estado2)
+                localidade = Localidade.objects.get(codlocal=codigo)
 
                 localidade.cidade = cidade2
                 localidade.estado = estado2
@@ -281,7 +281,7 @@ def crud_localidade(request):
                     messages.error(
                         request, "Ocorreu um erro ao editar a localidade")
                     return redirect('crud_localidade')
-                messages.success("Localidade editada com sucesso")
+                messages.success(request, "Localidade editada com sucesso")
 
             if operation == '4':
                 cidade1 = form['cidade'].value()
@@ -301,7 +301,7 @@ def crud_localidade(request):
                 except:
                     messages.error(request, "Ocorreu um erro")
                     return redirect('crud_localidade')
-                messages.success("Exclusão realizada com sucesso.")
+                messages.success(request, "Exclusão realizada com sucesso.")
         else:
             # Ocorreram erros nas validações de campo, retornar para o front-end os erros
             for field in form:

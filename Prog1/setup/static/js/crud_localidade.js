@@ -43,6 +43,7 @@ $('#btn_visualizar')
           } else if (this.id == 'btn_editar') {
             // Atualizar operação que o Localidade está realizando
             document.cookie = 'operation=3'
+            document.cookie = 'codigo=' + codlocal
             // Atualizar labels da tela
             $('#ModalInclusaoLabel').text('Editar Localidade')
             $('#id_btnok').text('Salvar')
@@ -65,12 +66,13 @@ $('#btn_incluir').click(function () {
   $('#id_modalInclusaoLabel').text('Incluir Localidade')
   $('#id_btnok').text('Salvar')
 
+  document.cookie = 'operation=1'
+
   $('#id_cidade').removeAttr('readonly')
   $('#id_estado').removeAttr('onchange')
 
   $('#id_cidade').val('').change()
   $('#id_estado').val('').change()
 
-  $('#id_status').attr('onchange', "this.value = '1'")
   $('#ModalInclusao').modal('toggle')
 })
