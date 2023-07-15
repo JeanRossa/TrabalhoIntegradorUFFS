@@ -68,7 +68,7 @@ class Localidade(models.Model):
     class Meta:
         managed = False
         db_table = 'localidade'
-        # unique_together = (('cidade', 'estado'),)
+        unique_together = (('cidade', 'estado'),)
 
 
 class Metafilial(models.Model):

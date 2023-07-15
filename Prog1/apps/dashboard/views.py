@@ -251,25 +251,57 @@ def crud_usuario(request):
 def crud_localidade(request):
 
     if request.method == 'POST':
+        operation = request.COOKIES.get('operation')
         form = LocalidadeForm(request.POST)
 
         if form.is_valid():
-            cidade = form['cidade'].value()
-            estado = form['estado'].value()
-
-            # localidade = Localidade.objects.filter(cidade=cidade)
-            # if cidade:
-            #     messages.error(request, "A cidade inserida já está cadastrada")
-            #     return redirect('crud_localidade')
-
-            try:
-                form.save()
-            except:
-                messages.error(
-                    request, "Ocorreu um erro ao criar a localidade, não é possível incluir a mesma cidade e estado duas vezes")
+            if operation == '1':
+                try:
+                    form.save()
+                except:
+                    messages.error(
+                        request, "Ocorreu um erro ao criar a localidade, não é possível incluir a mesma cidade e estado duas vezes")
+                    return redirect('crud_localidade')
+                messages.success(request, "Localidade incluida com sucesso")
                 return redirect('crud_localidade')
-            messages.success(request, "Localidade incluida com sucesso")
-            return redirect('crud_localidade')
+
+            if operation == '3':
+                cidade2 = form['cidade'].value()
+                estado2 = form['estado'].value()
+
+                localidade = Localidade.objects.get(
+                    cidade=cidade2, estado=estado2)
+
+                localidade.cidade = cidade2
+                localidade.estado = estado2
+
+                try:
+                    localidade.save()
+                except:
+                    messages.error(
+                        request, "Ocorreu um erro ao editar a localidade")
+                    return redirect('crud_localidade')
+                messages.success("Localidade editada com sucesso")
+
+            if operation == '4':
+                cidade1 = form['cidade'].value()
+                estado1 = form['estado'].value()
+
+                localidade = Localidade.objects.get(
+                    cidade=cidade1, estado=estado1)
+
+                filial = Filial.objects.get(codlocal=localidade.codlocal)
+
+                if filial:
+                    messages.error(
+                        request, "Exclusão não realizada a localidade está sendo usada pela filial " + str(filial.codfilial))
+                    return redirect('crud_localidade')
+                try:
+                    localidade.delete()
+                except:
+                    messages.error(request, "Ocorreu um erro")
+                    return redirect('crud_localidade')
+                messages.success("Exclusão realizada com sucesso.")
         else:
             # Ocorreram erros nas validações de campo, retornar para o front-end os erros
             for field in form:

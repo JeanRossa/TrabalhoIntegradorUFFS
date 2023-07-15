@@ -100,6 +100,7 @@ $('#btn_incluir').click(function() {
 	$('#id_login'		  ).removeAttr('readonly');
 	$('#id_senha'		  ).removeAttr('readonly');
 	$('#id_tipo'		  ).removeAttr('onchange');
+	$('#id_tipo'		  ).removeAttr('onchange');
 	$('#id_filial'		  ).removeAttr('onchange');
 	$('#id_nivelvendedor' ).removeAttr('onchange');
 	$('#id_status'		  ).removeAttr('readonly');
