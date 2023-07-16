@@ -327,9 +327,55 @@ def crud_localidade(request):
         return render(request, 'crud_localidade.html', {"sites": localidade, "form": form})
 
 
+@login_required
 def crud_filial(request):
+    if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
+        messages.error(
+            request, "Você não tem permissão para acessar esta página")
+        return redirect('DashBoardADM')
 
-    filial = Filial.objects.all().order_by('cnpj')
-    form = FilialForm
-    # else:
-    return render(request, 'crud_filial.html', {"branches": filial, "form": form})
+    if request.method == 'POST':
+        # Le o cookie "Operation" que informa qual tipo de operação o usuário esta fazendo
+        # 1 = Incluir, # 2 = Visualizar, # 3 = Editar, # 4 = Deletar
+        operation = request.COOKIES.get('operation')
+        form = FilialForm(request.POST)
+        if operation == '1':
+            if form.is_valid():
+                # Le as informações do formulário
+                cnpj = form['cnpj'].value()
+
+                if not cnpj.isnumeric():
+                    # Retorna uma mensagem para o front-end
+                    messages.error(
+                        request, "o CNPJ inserido é inválido, por favor, tente novamente (informar CNPJ sem pontuação)")
+                    # Redireciona/atualiza a pagina
+                    return redirect('crud_filial')
+                    # Realiza a busca de um CNPJ com os filtros passados
+                filial = Filial.objects.filter(cnpj=cnpj, dtencerramento=None)
+                if filial:  # Se encontrou
+                    messages.error(
+                        request, "O CNPJ inserido já está cadastrado")
+                    return redirect('crud_filial')
+
+                newFilial = form.save(commit=False)
+                newFilial.dtinclusao = datetime.now()  # Preenchendo data de inclusão
+                newFilial.save()
+                form.save()
+
+                messages.success(request, "Filial incluida com sucesso")
+                return redirect('crud_filial')
+
+            # Ocorreram erros nas validações de campo, retornar para o front-end os erros
+            else:
+                for field in form:
+                    if field.errors:
+                        print("Field Error:", field.name,  field.errors)
+                        messages.error(request, field.errors)
+                        return redirect('crud_filial')
+            
+
+    else:
+        filial = Filial.objects.all().order_by('cnpj')
+        form = FilialForm
+        # else:
+        return render(request, 'crud_filial.html', {"branches": filial, "form": form})

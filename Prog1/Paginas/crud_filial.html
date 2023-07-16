@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Partials é o elemento que aparece as mensagens de erro/sucesso -->
+{% include 'Partials/_alertas.html' %}
+<!-- Modal de operaçõs (Telinha flutuante) -->
+<div class="modal fade" id="ModalInclusao" tabindex="-1" aria-labelledby="ModalInclusaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalInclusaoLabel">Nova Filial</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form action="{% url 'crud_filial' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+
+                        {% for field in form.visible_fields %}
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="{{ field.id_for_label }}">{{field.label}}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="sumbit" class="btn btn-primary" id="id_btnok">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="table-wrapper">
+
+    <div class="table-title">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>Cadastro de <b>Filiais</b></h2>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="d-flex p-2 flex-row-reverse">
+                    <div class="p-1">
+                        <button type="button" class="btn btn-success" id="btn_incluir">
+                            <i class="bi bi-plus"></i> <span>Novo</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-secondary" id="btn_visualizar">
+                            <i class="bi bi-eye"></i> <span>Visualizar</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-secondary" id="btn_editar">
+                            <i class="bi bi-pencil"></i> <span>Editar</span>
+                        </button>
+                    </div>
+                    <div class="p-1">
+                        <button type="button" class="btn btn-danger" id="btn_apagar">
+                            <i class="bi bi-trash"></i> <span>Excluir</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-hover">
+        <!-- Cabeçalho -->
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Código</th>
+                <th>CNPJ</th>
+                <th>Data de Inclusão</th>
+                <th>Localidade</th>
+                <th>Nivel</th>
+            </tr>
+        </thead>
+        <!-- Linhas -->
+        <tbody>
+            {% for Filial in branches %}
+            <tr>
+                {% if Filial.status == 1%}
+                <td style="background-color: rgb(50, 223, 27);"></td>
+                {% else %}
+                <td style="background-color: rgb(219, 30, 30);"></td>
+                {% endif %}
+                <td>
+                    <span class="custom-checkbox">
+                        <input type="checkbox" name="checkbox_branches" id="{{Filial.codfilial}}"
+                            value="{{forloop.counter0}}">
+                    </span>
+                </td>
+                <td>{{Filial.codfilial}}</td>
+                <td>{{Filial.cnpj}}</td>
+                <td>{{Filial.dtinclusao}}</td>
+                <td>
+                    {% if Filial.codlocal == null%}
+                    {% else %}
+                    {{Filial.codlocal}}
+                    {% endif %}
+
+                </td>
+                <td>
+                    {% if Filial.nivelfilial == null%}
+
+                    {% else %}
+                    {{Filial.nivelfilial}}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="{%static '/js/crud_filial.js'%}"></script>
+
+{% endblock %}

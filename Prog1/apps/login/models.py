@@ -18,7 +18,7 @@ class Filial(models.Model):
 
     # Não precisa aparecer no html
     codfilial = models.AutoField(primary_key=True)
-    dtinclusao = models.DateField()
+    dtinclusao = models.DateField(default=datetime.now, blank=True)  
     dtencerramento = models.DateField(blank=True, null=True)
     cnpj = models.CharField(max_length=14)
     status = models.IntegerField(default=1, choices=OPC_STATUS)
@@ -40,33 +40,7 @@ class Filial(models.Model):
 class Localidade(models.Model):
 
     UF = [
-        ("AC", "Acre"),
-        ("AL", "Alagoas"),
-        ("AP", "Amapá"),
-        ("AM", "Amazonas"),
-        ("BA", "Bahia"),
-        ("CE", "Ceará"),
-        ("DF", "Distrito Federal"),
-        ("ES", "Espírito Santo"),
-        ("GO", "Goiás"),
-        ("MA", "Maranhão"),
-        ("MT", "Mato Grosso"),
-        ("MS", "Mato Grosso do Sul"),
-        ("MG", "Minas Gerais"),
-        ("PA", "Pará"),
-        ("PB", "Paraíba"),
-        ("PR", "Paraná"),
-        ("PE", "Pernambuco"),
-        ("PI", "Piauí"),
-        ("RJ", "Rio de Janeiro"),
-        ("RN", "Rio Grande do Norte"),
-        ("RS", "Rio Grande do Sul"),
-        ("RO", "Rondônia"),
-        ("RR", "Roraima"),
-        ("SC", "Santa Catarina"),
-        ("SP", "São Paulo"),
-        ("SE", "Sergipe"),
-        ("TO", "Tocantins"),
+        ("AC", "Acre"), ("AL", "Alagoas"), ("AP", "Amapá"), ("AM", "Amazonas"), ("BA", "Bahia"),("CE", "Ceará"), ("DF", "Distrito Federal"), ("ES", "Espírito Santo"), ("GO", "Goiás"), ("MA", "Maranhão"), ("MT", "Mato Grosso"), ("MS", "Mato Grosso do Sul"), ("MG", "Minas Gerais"), ("PA", "Pará"), ("PB", "Paraíba"), ("PR", "Paraná"), ("PE", "Pernambuco"), ("PI", "Piauí"), ("RJ", "Rio de Janeiro"), ("RN", "Rio Grande do Norte"), ("RS", "Rio Grande do Sul"), ("RO", "Rondônia"), ("RR", "Roraima"), ("SC", "Santa Catarina"), ("SP", "São Paulo"), ("SE", "Sergipe"), ("TO", "Tocantins"),
     ]
 
     codlocal = models.AutoField(primary_key=True)
@@ -118,7 +92,7 @@ class Nivelfilial(models.Model):
         db_table = 'nivelfilial'
 
     def __str__(self):
-        return "Nivel " + self.nivelfilial + " - " + self.descricao
+        return self.nivelfilial + " - " + self.descricao
 
 
 class Nivelvendedor(models.Model):
@@ -130,7 +104,7 @@ class Nivelvendedor(models.Model):
         db_table = 'nivelvendedor'
 
     def __str__(self):
-        return "Nivel " + self.nivelvendedor + " - " + self.descricao
+        return  self.nivelvendedor + " - " + self.descricao
 
 
 class Usuario(models.Model):

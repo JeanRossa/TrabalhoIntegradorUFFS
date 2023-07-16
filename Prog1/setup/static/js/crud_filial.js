@@ -9,26 +9,23 @@ $('#btn_visualizar')
     .add('#btn_apagar')
     .on('click', function () {
         // Pegar código selecionado
-        coduser = $('input:checkbox[name=checkbox_users]:checked').attr('id')
-        if (coduser != null) {
+        codfilial = $('input:checkbox[name=checkbox_branches]:checked').attr(
+            'id'
+        )
+        if (codfilial != null) {
             // Aqui é realizado uma requisição GET para o back-end para recuperar todas as informações do usuário
-            // É passado o link "/request/usuario" que cai no código /prog1/apps/requests/views.py, que retorna um JSon com as informações para a tela
+            // É passado o link "/request/filial" que cai no código /prog1/apps/requests/views.py, que retorna um JSon com as informações para a tela
             axios
-                .get('/request/usuario', { params: { cod: coduser } })
+                .get('/request/filial', { params: { cod: codfilial } })
                 .then(response => {
                     // Popular os fields com os dados retornados
-                    $('#id_nome').val(response.data.nome.trim())
-                    $('#id_cpf').val(response.data.cpf)
-                    $('#id_login').val(response.data.login.trim())
-                    $('#id_senha').val(response.data.senha)
+
+                    $('#id_cnpj').val(response.data.cnpj)
                     $('#id_dtinclusao').val(response.data.dtInclusao)
                     $('#id_dtencerramento').val(response.data.dtencerramento)
                     $('#id_status').val(response.data.status).change()
-                    $('#id_tipo').val(response.data.tipo).change()
-                    $('#id_filial').val(response.data.filial).change()
-                    $('#id_nivelvendedor')
-                        .val(response.data.nivelvendedor)
-                        .change()
+                    $('#id_nivelfilial').val(response.data.nivelfilial).change()
+                    $('#id_codlocal').val(response.data.codlocal).change()
 
                     if (
                         this.id == 'btn_visualizar' ||
@@ -37,7 +34,7 @@ $('#btn_visualizar')
                         if (this.id == 'btn_visualizar') {
                             // Atualizando os valores para visualização
                             document.cookie = 'operation=2' // Visualizar
-                            $('#ModalInclusaoLabel').text('Visualizar Usuário') // Título da tela
+                            $('#ModalInclusaoLabel').text('Visualizar Filial') // Título da tela
                             $('#id_btnok').attr('hidden', 'hidden') // Esconder botão
                         } else {
                             // Valida se é possível editar
@@ -49,28 +46,24 @@ $('#btn_visualizar')
                             }
                             // Atualizando valores para exclusão
                             document.cookie = 'operation=4' // Exclusão
-                            $('#ModalInclusaoLabel').text('Excluir Usuário') // Título da tela
+                            $('#ModalInclusaoLabel').text('Excluir Filial') // Título da tela
                             $('#id_btnok').text('Excluir') // Título do botão
                             $('#id_btnok').removeAttr('hidden') // Aparecer botão
                         }
 
                         // Bloquear campos impedindo a edição
-                        $('#id_nome').attr('readonly', 'readonly')
-                        $('#id_tipo').attr(
-                            'onchange',
-                            "this.value = '" + response.data.tipo + "'"
-                        )
-                        $('#id_filial').attr(
-                            'onchange',
-                            "this.value = '" + response.data.filial + "'"
-                        )
-                        $('#id_nivelvendedor').attr(
-                            'onchange',
-                            "this.value = '" + response.data.nivelvendedor + "'"
-                        )
+                        $('#id_cnpj').attr('readonly', 'readonly')
                         $('#id_status').attr(
                             'onchange',
                             "this.value = '" + response.data.status + "'"
+                        )
+                        $('#id_nivelfilial').attr(
+                            'onchange',
+                            "this.value = '" + response.data.nivelfilial + "'"
+                        )
+                        $('#id_codlocal').attr(
+                            'onchange',
+                            "this.value = '" + response.data.codlocal + "'"
                         )
                     } else if (this.id == 'btn_editar') {
                         // Validar se é possível editar
@@ -83,20 +76,19 @@ $('#btn_visualizar')
                         // Atualizar operação que o usuário está realizando
                         document.cookie = 'operation=3'
                         // Atualizar labels da tela
-                        $('#ModalInclusaoLabel').text('Editar Usuário')
+                        $('#ModalInclusaoLabel').text('Editar Filial')
                         $('#id_btnok').text('Salvar')
                         // Desbloquear campos editavies
                         $('#id_btnok').removeAttr('hidden')
-                        $('#id_nome').removeAttr('readonly')
-                        $('#id_tipo').removeAttr('onchange')
-                        $('#id_filial').removeAttr('onchange')
-                        $('#id_nivelvendedor').removeAttr('onchange')
+                        $('#id_cnpj').removeAttr('readonly')
                         $('#id_status').removeAttr('onchange')
+                        $('#id_nivelfilial').removeAttr('onchange')
+                        $('#id_codlocal').removeAttr('onchange')
                     }
                     // Bloquear campos não editaveis/demais campos para visualização
-                    $('#id_cpf').attr('readonly', 'readonly')
-                    $('#id_login').attr('readonly', 'readonly')
-                    $('#id_senha').attr('readonly', 'readonly')
+                    // $('#id_cnpj').attr('readonly', 'readonly')
+                    // $('#id_login').attr('readonly', 'readonly')
+                    // $('#id_senha').attr('readonly', 'readonly')
                     // Abrir tela modal
                     $('#ModalInclusao').modal('toggle')
                 })
@@ -114,30 +106,27 @@ $('#btn_incluir').click(function () {
     $('#id_btnok').text('Salvar')
 
     // Desbloquear campos para permitir edição
-    $('#id_btnok').removeAttr('hidden')
-    $('#id_nome').removeAttr('readonly')
-    $('#id_cpf').removeAttr('readonly')
-    $('#id_login').removeAttr('readonly')
-    $('#id_senha').removeAttr('readonly')
-    $('#id_tipo').removeAttr('onchange')
-    $('#id_tipo').removeAttr('onchange')
-    $('#id_filial').removeAttr('onchange')
-    $('#id_nivelvendedor').removeAttr('onchange')
-    $('#id_status').removeAttr('readonly')
-    // Impedir alterção do status
+    $('#id_cnpj').removeAttr('disabled')
+    $('#id_nivelfilial').removeAttr('disabled')
+    $('#id_status').removeAttr('disabled')
+    $('#id_dtinclusao').removeAttr('disabled')
+    $('#id_dtencerramento').removeAttr('disabled')
+
+    // Impedir alteração do status
     $('#id_status').attr('onchange', "this.value = '1'")
+    $('#id_dtinclusao').attr('onchange')
+    $('#id_dtencerramento').attr('onchange')
+
     // Resetar campos para o padrão
     $('#id_status').val('1').change()
-    $('#id_tipo').val('').change()
-    $('#id_filial').val('').change()
-    $('#id_nivelvendedor').val('').change()
+    $('#id_cnpj').val('').change()
+    $('#id_nivelfilial').val('').change()
+    $('#id_codlocal').val('').change()
+
     // Limpar campos
-    $('#id_nome').val('')
-    $('#id_cpf').val('')
-    $('#id_login').val('')
-    $('#id_senha').val('')
+    $('#id_cnpj').val('')
     $('#id_dtinclusao').val('')
     $('#id_dtencerramento').val('')
-    // Abrir tela
+
     $('#ModalInclusao').modal('toggle')
 })

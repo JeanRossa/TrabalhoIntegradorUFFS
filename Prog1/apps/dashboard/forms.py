@@ -5,16 +5,16 @@ from apps.login.models import Usuario, Filial, Nivelvendedor, Localidade, Filial
 class FilialForm(forms.ModelForm):
 
     codlocal = forms.ModelChoiceField(label='Localidade', queryset=Localidade.objects.all(
-    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=False)
 
     nivelfilial = forms.ModelChoiceField(label='Nivel da Filial', queryset=Nivelfilial.objects.all(
-    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=False)
 
     class Meta:
         # Nesse caso, Usuario é a instancia do modelo que vem do arquivo models.py que foi configurado em Prog1/apps/login
         model = Filial
         # Campos que não irão constar no formulário
-        exclude = ['codlocal', 'codfilial']
+        exclude = ['codfilial']
 
         # Dicionário de dados contento: "NomeDoCampo":"Descrição do campo que vai aparecer no front-end"
 

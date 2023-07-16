@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "collectstatic",
+        "type": "shell",
+        "command": "python",
+        "args": ["${workspaceFolder}\\prog1\\manage.py", "collectstatic", "--noinput"],
+        "presentation": {
+          "reveal": "never",
+          "panel": "shared"
+        },
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        }
+      }
+    ]
+  }
