@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from apps.login.models import Usuario, Nivelvendedor, Filial, Localidade, Filial, Nivelfilial
-from apps.dashboard.forms import UsuarioForm, LocalidadeForm, FilialForm
+from apps.dashboard.forms import UsuarioForm, LocalidadeForm, FilialForm, NivelFilialForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required
@@ -430,3 +430,10 @@ def crud_filial(request):
         form = FilialForm
         # else:
         return render(request, 'crud_filial.html', {"branches": filial, "form": form})
+
+
+def crud_nivelFilial(request):
+
+    nivelFilial = Nivelfilial.objects.all()
+    form = NivelFilialForm
+    return render(request, 'crud_nivelFilial.html', {"branchLevels": nivelFilial, "form": form})

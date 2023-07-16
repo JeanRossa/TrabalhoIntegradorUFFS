@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from apps.login.models import Usuario, Localidade, Filial
+from apps.login.models import Usuario, Localidade, Filial, Nivelfilial
 # Create your views here.
 
 
@@ -35,3 +35,9 @@ def getFiliais(request):
     branch = Filial.objects.get(codfilial=codfilial)
 
     return JsonResponse({"cnpj": branch.cnpj, "dtinclusao": branch.dtinclusao, "dtencerramento": branch.dtencerramento, "status": branch.status, "nivelfilial": branch.nivelfilial.nivelfilial, "codlocal": branch.codlocal.codlocal})
+
+
+def getNivelFilial(request):
+    nivelfilial = request.GET.get('cod')
+    branchLevel = Nivelfilial.objects.get(nivelfilial=nivelfilial)
+    return JsonResponse({"nivelfilial": branchLevel.nivelfilial, 'descricao': branchLevel.descricao})
