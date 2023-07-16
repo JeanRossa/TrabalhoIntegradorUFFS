@@ -18,7 +18,7 @@ class Filial(models.Model):
 
     # Não precisa aparecer no html
     codfilial = models.AutoField(primary_key=True)
-    dtinclusao = models.DateField(default=datetime.now, blank=True)  
+    dtinclusao = models.DateField(default=datetime.now, blank=True)
     dtencerramento = models.DateField(blank=True, null=True)
     cnpj = models.CharField(max_length=14)
     status = models.IntegerField(default=1, choices=OPC_STATUS)
@@ -40,7 +40,8 @@ class Filial(models.Model):
 class Localidade(models.Model):
 
     UF = [
-        ("AC", "Acre"), ("AL", "Alagoas"), ("AP", "Amapá"), ("AM", "Amazonas"), ("BA", "Bahia"),("CE", "Ceará"), ("DF", "Distrito Federal"), ("ES", "Espírito Santo"), ("GO", "Goiás"), ("MA", "Maranhão"), ("MT", "Mato Grosso"), ("MS", "Mato Grosso do Sul"), ("MG", "Minas Gerais"), ("PA", "Pará"), ("PB", "Paraíba"), ("PR", "Paraná"), ("PE", "Pernambuco"), ("PI", "Piauí"), ("RJ", "Rio de Janeiro"), ("RN", "Rio Grande do Norte"), ("RS", "Rio Grande do Sul"), ("RO", "Rondônia"), ("RR", "Roraima"), ("SC", "Santa Catarina"), ("SP", "São Paulo"), ("SE", "Sergipe"), ("TO", "Tocantins"),
+        ("AC", "Acre"), ("AL", "Alagoas"), ("AP", "Amapá"), ("AM", "Amazonas"), ("BA", "Bahia"), ("CE", "Ceará"), ("DF", "Distrito Federal"), ("ES", "Espírito Santo"), ("GO", "Goiás"), ("MA", "Maranhão"), ("MT", "Mato Grosso"), ("MS", "Mato Grosso do Sul"), ("MG", "Minas Gerais"), ("PA", "Pará"), ("PB",
+                                                                                                                                                                                                                                                                                                           "Paraíba"), ("PR", "Paraná"), ("PE", "Pernambuco"), ("PI", "Piauí"), ("RJ", "Rio de Janeiro"), ("RN", "Rio Grande do Norte"), ("RS", "Rio Grande do Sul"), ("RO", "Rondônia"), ("RR", "Roraima"), ("SC", "Santa Catarina"), ("SP", "São Paulo"), ("SE", "Sergipe"), ("TO", "Tocantins"),
     ]
 
     codlocal = models.AutoField(primary_key=True)
@@ -104,7 +105,7 @@ class Nivelvendedor(models.Model):
         db_table = 'nivelvendedor'
 
     def __str__(self):
-        return  self.nivelvendedor + " - " + self.descricao
+        return self.nivelvendedor + " - " + self.descricao
 
 
 class Usuario(models.Model):
