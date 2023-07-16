@@ -1,5 +1,38 @@
 from django import forms
-from apps.login.models import Usuario, Filial, Nivelvendedor, Localidade
+from apps.login.models import Usuario, Filial, Nivelvendedor, Localidade, Filial, Nivelfilial
+
+
+class FilialForm(forms.ModelForm):
+
+    codlocal = forms.ModelChoiceField(label='Localidade', queryset=Localidade.objects.all(
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
+
+    nivelfilial = forms.ModelChoiceField(label='Nivel da Filial', queryset=Nivelfilial.objects.all(
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
+
+    class Meta:
+        # Nesse caso, Usuario é a instancia do modelo que vem do arquivo models.py que foi configurado em Prog1/apps/login
+        model = Filial
+        # Campos que não irão constar no formulário
+        exclude = ['codlocal', 'codfilial']
+
+        # Dicionário de dados contento: "NomeDoCampo":"Descrição do campo que vai aparecer no front-end"
+
+        labels = {
+            'cnpj': 'CNPJ',
+            'dtinclusao': 'Data de Inclusão',
+            'dtencerramento': 'Data de Encerramento',
+            'status': 'Status'
+        }
+
+        # Configurando cada campo do formulário, Atenção: o nome do campo deve ser idêntico ao models.py
+        widgets = {
+            # Campo de Texto CNPJ
+            'cnpj': forms.TextInput(attrs={'class': 'form-control'}),
+            'dtinclusao': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
+            'dtencerramento': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 
 class LocalidadeForm(forms.ModelForm):
@@ -10,7 +43,9 @@ class LocalidadeForm(forms.ModelForm):
         # Campos que não irão constar no formulário
         exclude = ['codlocal']
 
-        labels = {                      # Dicionário de dados contento: "NomeDoCampo":"Descrição do campo que vai aparecer no front-end"
+        # Dicionário de dados contento: "NomeDoCampo":"Descrição do campo que vai aparecer no front-end"
+
+        labels = {
             'cidade': 'Cidade',
             'estado': 'Estado',
         }
@@ -33,7 +68,8 @@ class UsuarioForm(forms.ModelForm):
         # Dados que vai constar no campo utilizando a ORM do Django
         queryset=Filial.objects.all(),
         widget=forms.Select(
-            attrs={                                     # Aqui podemos colocar um dicionário de dados contento atributos para mandar para o front-end
+            attrs={
+                # Aqui podemos colocar um dicionário de dados contento atributos para mandar para o front-end
                 # Atributo "class" contendo a classe "form-control"
                 "class": "form-control"
             }
@@ -42,16 +78,8 @@ class UsuarioForm(forms.ModelForm):
     )
 
     # Campo DropDown com dados de outra tabela (Nesse caso, tabela de nivel de vendedor)
-    nivelvendedor = forms.ModelChoiceField(
-        label='Nivel do Vendedor',
-        queryset=Nivelvendedor.objects.all(),
-        widget=forms.Select(
-            attrs={
-                "class": "form-control"
-            }
-        ),
-        required=False
-    )
+    nivelvendedor = forms.ModelChoiceField(label='Nivel do Vendedor', queryset=Nivelvendedor.objects.all(
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=False)
 
     class Meta:
         # Nesse caso, Usuario é a instancia do modelo que vem do arquivo models.py que foi configurado em Prog1/apps/login

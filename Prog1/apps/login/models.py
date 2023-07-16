@@ -10,13 +10,21 @@ from datetime import datetime
 
 
 class Filial(models.Model):
+
+    OPC_STATUS = [
+        (1, "Ativo"),
+        (2, "Inativo"),
+    ]
+
+    # Não precisa aparecer no html
     codfilial = models.AutoField(primary_key=True)
     dtinclusao = models.DateField()
     dtencerramento = models.DateField(blank=True, null=True)
     cnpj = models.CharField(max_length=14)
-    status = models.IntegerField()
+    status = models.IntegerField(default=1, choices=OPC_STATUS)
     nivelfilial = models.ForeignKey(
         'Nivelfilial', models.DO_NOTHING, db_column='nivelfilial')
+    # Não precisa aparecer no html
     codlocal = models.ForeignKey(
         'Localidade', models.DO_NOTHING, db_column='codlocal')
 
@@ -70,6 +78,9 @@ class Localidade(models.Model):
         db_table = 'localidade'
         unique_together = (('cidade', 'estado'),)
 
+    def __str__(self):
+        return self.cidade + " - " + self.estado
+
 
 class Metafilial(models.Model):
     # The composite primary key (nivelfilial, vigencia) found, that is not supported. The first column is selected.
@@ -105,6 +116,9 @@ class Nivelfilial(models.Model):
     class Meta:
         managed = False
         db_table = 'nivelfilial'
+
+    def __str__(self):
+        return "Nivel " + self.nivelfilial + " - " + self.descricao
 
 
 class Nivelvendedor(models.Model):
