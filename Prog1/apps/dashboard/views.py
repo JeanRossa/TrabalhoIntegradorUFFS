@@ -339,12 +339,18 @@ def crud_nivelfilial(request):
 
         if form.is_valid():
             if operation == '1':
-                try:
-                    form.save()
-                except:
-                    messages.error(
-                        request, "Ocorreu um erro ao criar o nível de filial, não é possível incluir o mesmo nível duas vezes")
+
+                nv = form['nivelfilial'].value()
+
+                nivelfilial = Nivelfilial.objects.filter(nivelfilial=nv)
+
+                if nivelfilial:
+                    messages.error(request, "O nível de filial já existe")
                     return redirect('crud_nivelfilial')
+                newNivelFilial = form.save(commit=False)
+                newNivelFilial.save()
+                form.save()
+
                 messages.success(
                     request, "Nível de filial incluido com sucesso")
                 return redirect('crud_nivelfilial')
