@@ -261,11 +261,11 @@ def crud_localidade(request):
         form = LocalidadeForm(request.POST)
 
         if operation == '4':
-            cidade1 = form['cidade'].value()
-            estado1 = form['estado'].value()
+            cidade = form['cidade'].value()
+            estado = form['estado'].value()
 
             localidade = Localidade.objects.get(
-                cidade=cidade1, estado=estado1)
+                cidade=cidade, estado=estado)
             try:
                 filial = Filial.objects.get(codlocal=localidade.codlocal)
             except:
@@ -323,12 +323,34 @@ def crud_localidade(request):
     else:
         localidade = Localidade.objects.all()
         form = LocalidadeForm
-
         return render(request, 'crud_localidade.html', {"sites": localidade, "form": form})
 
 
-def crud_nivelFilial(request):
+def crud_nivelfilial(request):
 
-    nivelFilial = Nivelfilial.objects.all()
-    form = NivelFilialForm
-    return render(request, 'crud_nivelFilial.html', {"branchLevels": nivelFilial, "form": form})
+    if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
+        messages.error(
+            request, "Você não tem permissão para acessar esta página")
+        return redirect('DashBoardADM')
+
+    if request.method == 'POST':
+        operation = request.COOKIES.get('operation')
+        form = NivelFilialForm(request.POST)
+
+        if form.is_valid():
+            if operation == '1':
+                try:
+                    form.save()
+                except:
+                    messages.error(
+                        request, "Ocorreu um erro ao criar o nível de filial, não é possível incluir o mesmo nível duas vezes")
+                    return redirect('crud_nivelfilial')
+                messages.success(
+                    request, "Nível de filial incluido com sucesso")
+                return redirect('crud_nivelfilial')
+
+    else:
+
+        nivelFilial = Nivelfilial.objects.all()
+        form = NivelFilialForm
+        return render(request, 'crud_nivelfilial.html', {"branchLevels": nivelFilial, "form": form})

@@ -12,6 +12,7 @@
             "args": [
                 "runserver"
             ],
+            "preLaunchTask": "collectstatic",
             "django": true,
             "justMyCode": true
         }
