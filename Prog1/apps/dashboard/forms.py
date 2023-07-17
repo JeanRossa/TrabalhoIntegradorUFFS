@@ -38,20 +38,18 @@ class FilialForm(forms.ModelForm):
 class NivelFilialForm(forms.ModelForm):
 
     class Meta:
-        # Nesse caso, Usuario é a instancia do modelo que vem do arquivo models.py que foi configurado em Prog1/apps/login
         model = Nivelfilial
 
-        fields = {                      # Dicionário de dados contento: "NomeDoCampo":"Descrição do campo que vai aparecer no front-end"
+        fields = ['nivelfilial', 'descricao']
+
+        labels = {
             'nivelfilial': 'Nível Filial',
             'descricao': 'Descrição',
         }
 
-        # Configurando cada campo do formulário, Atenção: o nome do campo deve ser idêntico ao models.py
         widgets = {
-            # Campo de Texto nome
             'nivelfilial': forms.TextInput(attrs={'class': 'form-control'}),
-            # Campo de Texto nome
-            'descricao': forms.Select(attrs={'class': 'form-control'}),
+            'descricao': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 

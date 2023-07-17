@@ -261,11 +261,11 @@ def crud_localidade(request):
         form = LocalidadeForm(request.POST)
 
         if operation == '4':
-            cidade1 = form['cidade'].value()
-            estado1 = form['estado'].value()
+            cidade = form['cidade'].value()
+            estado = form['estado'].value()
 
             localidade = Localidade.objects.get(
-                cidade=cidade1, estado=estado1)
+                cidade=cidade, estado=estado)
             try:
                 filial = Filial.objects.get(codlocal=localidade.codlocal)
             except:
@@ -323,7 +323,6 @@ def crud_localidade(request):
     else:
         localidade = Localidade.objects.all()
         form = LocalidadeForm
-
         return render(request, 'crud_localidade.html', {"sites": localidade, "form": form})
 
 
@@ -432,8 +431,136 @@ def crud_filial(request):
         return render(request, 'crud_filial.html', {"branches": filial, "form": form})
 
 
-def crud_nivelFilial(request):
+@login_required
+def crud_filial(request):
+    if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
+        messages.error(
+            request, "Você não tem permissão para acessar esta página")
+        return redirect('DashBoardADM')
 
-    nivelFilial = Nivelfilial.objects.all()
-    form = NivelFilialForm
-    return render(request, 'crud_nivelFilial.html', {"branchLevels": nivelFilial, "form": form})
+    if request.method == 'POST':
+        # Le o cookie "Operation" que informa qual tipo de operação o usuário esta fazendo
+        # 1 = Incluir, # 2 = Visualizar, # 3 = Editar, # 4 = Deletar
+        operation = request.COOKIES.get('operation')
+        form = FilialForm(request.POST)
+        if operation == '1':
+            if form.is_valid():
+                # Le as informações do formulário
+                cnpj = form['cnpj'].value()
+
+                if not cnpj.isnumeric():
+                    # Retorna uma mensagem para o front-end
+                    messages.error(
+                        request, "o CNPJ inserido é inválido, por favor, tente novamente (informar CNPJ sem pontuação)")
+                    # Redireciona/atualiza a pagina
+                    return redirect('crud_filial')
+                    # Realiza a busca de um CNPJ com os filtros passados
+                filial = Filial.objects.filter(cnpj=cnpj, dtencerramento=None)
+                if filial:  # Se encontrou
+                    messages.error(
+                        request, "O CNPJ inserido já está cadastrado")
+                    return redirect('crud_filial')
+
+                newFilial = form.save(commit=False)
+                newFilial.dtinclusao = datetime.now()  # Preenchendo data de inclusão
+                newFilial.save()
+                form.save()
+
+                messages.success(request, "Filial incluida com sucesso")
+                return redirect('crud_filial')
+
+            # Ocorreram erros nas validações de campo, retornar para o front-end os erros
+            else:
+                for field in form:
+                    if field.errors:
+                        print("Field Error:", field.name,  field.errors)
+                        messages.error(request, field.errors)
+                        return redirect('crud_filial')
+
+        if operation == '3':
+            codfilial = request.COOKIES.get('codfilial')
+            cnpj = form['cnpj'].value()
+            status = form['status'].value()
+            nivelfilial = form['nivelfilial'].value()
+            codlocal = form['codlocal'].value()
+
+            print(codfilial, cnpj, status, nivelfilial, codlocal)
+
+            filial = Filial.objects.get(
+                codfilial=codfilial, dtencerramento=None)
+            filial.cnpj = cnpj
+
+            if filial.status == 2:
+                messages.error(
+                    request, "Não é permitida a edição de registros inativos")
+                return redirect('crud_filial')
+
+            filial.status = status
+            filial.nivelfilial = Nivelfilial.objects.get(
+                nivelfilial=nivelfilial)
+            filial.codlocal = Localidade.objects.get(codlocal=codlocal)
+
+            try:
+                filial.save()
+            except:
+                messages.error(request, "Ocorreu um erro ao editar a filial")
+                return redirect('crud_filial')
+            messages.success(request, "Filial editada com sucesso")
+            return redirect('crud_filial')
+
+        if operation == '4':
+            codfilial = request.COOKIES.get('codfilial')
+
+            filial = Filial.objects.get(codfilial=codfilial)
+
+            try:
+                usuario = Usuario.objects.get(filial=filial.codfilial)
+            except:
+                usuario = None
+
+            if usuario:
+                messages.error(
+                    request, "Exclusão não realizada a filial está sendo usada pelo usuário " + str(usuario.nome))
+                return redirect('crud_filial')
+            try:
+                filial.delete()
+            except:
+                messages.error(request, "Ocorreu um erro")
+                return redirect('crud_filial')
+            messages.success(request, "Exclusão realizada com sucesso.")
+
+    else:
+        filial = Filial.objects.all().order_by('cnpj')
+        form = FilialForm
+        # else:
+        return render(request, 'crud_filial.html', {"branches": filial, "form": form})
+
+
+def crud_nivelfilial(request):
+
+    if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
+        messages.error(
+            request, "Você não tem permissão para acessar esta página")
+        return redirect('DashBoardADM')
+
+    if request.method == 'POST':
+        operation = request.COOKIES.get('operation')
+        form = NivelFilialForm(request.POST)
+
+        if form.is_valid():
+            if operation == '1':
+                try:
+                    form.save()
+                except:
+                    messages.error(
+                        request, "Ocorreu um erro ao criar o nível de filial, não é possível incluir o mesmo nível duas vezes")
+                    return redirect('crud_nivelfilial')
+                messages.success(
+                    request, "Nível de filial incluido com sucesso")
+                return redirect('crud_nivelfilial')
+
+    else:
+
+        nivelFilial = Nivelfilial.objects.all()
+        form = NivelFilialForm
+        return render(request, 'crud_nivelfilial.html', {"branchLevels": nivelFilial, "form": form})
