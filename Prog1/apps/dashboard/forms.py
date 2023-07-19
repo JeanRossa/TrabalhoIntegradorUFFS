@@ -32,7 +32,7 @@ class FilialForm(forms.ModelForm):
             'dtinclusao': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
             'dtencerramento': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
             'status': forms.Select(attrs={'class': 'form-control'}),
-        }, Nivelfilial
+        }
 
 
 class NivelFilialForm(forms.ModelForm):

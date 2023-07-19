@@ -4,18 +4,20 @@ from apps.login.models import Usuario, Localidade, Filial, Nivelfilial
 
 
 def getUsuarios(request):
-    coduser = request.GET.get('cod')                    # Recupear código passado para o back-end
-    user = Usuario.objects.get(codusuario=coduser)      # Procurar usuário com o código
+    # Recupear código passado para o back-end
+    coduser = request.GET.get('cod')
+    # Procurar usuário com o código
+    user = Usuario.objects.get(codusuario=coduser)
     filial = ''
     nv = ''
     # Tratando o retorno para os 3 casos onde filial e nivel podem não estar preenchidos
-    if user.tipo == 1: # ADM
+    if user.tipo == 1:  # ADM
         filial = ''
         nv = ''
-    if user.tipo == 2: # Gerente
+    if user.tipo == 2:  # Gerente
         filial = user.filial.codfilial
         nv = ''
-    if user.tipo == 3: # Vendedor
+    if user.tipo == 3:  # Vendedor
         filial = user.filial.codfilial
         nv = user.nivelvendedor.nivelvendedor
 
