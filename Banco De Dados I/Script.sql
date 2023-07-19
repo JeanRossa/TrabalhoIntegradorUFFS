@@ -5,8 +5,8 @@ SET
    datestyle TO 'ISO,DMY';
 
 CREATE TABLE IF NOT EXISTS nivelFilial(
-   nivelFilial VARCHAR(3) NOT NULL,
-   descricao VARCHAR(256) NOT NULL,
+   nivelFilial char(3) NOT NULL,
+   descricao char(256) NOT NULL,
    CONSTRAINT pk_nivelFilial PRIMARY KEY (nivelFilial)
 );
 
