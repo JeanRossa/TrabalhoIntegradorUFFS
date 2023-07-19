@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.login.models import Usuario, Nivelvendedor, Filial, Localidade, Filial
+from apps.login.models import Usuario, Nivelvendedor, Filial, Localidade, Filial, Nivelfilial
 from apps.dashboard.forms import UsuarioForm, LocalidadeForm, FilialForm
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
@@ -295,11 +295,11 @@ def crud_localidade(request):
                 return redirect('crud_localidade')
 
             if operation == '3':
-                codigo = request.COOKIES.get('codigo')
+                codlocal = request.COOKIES.get('codlocal')
                 cidade2 = form['cidade'].value()
                 estado2 = form['estado'].value()
 
-                localidade = Localidade.objects.get(codlocal=codigo)
+                localidade = Localidade.objects.get(codlocal=codlocal)
 
                 localidade.cidade = cidade2
                 localidade.estado = estado2
@@ -372,7 +372,58 @@ def crud_filial(request):
                         print("Field Error:", field.name,  field.errors)
                         messages.error(request, field.errors)
                         return redirect('crud_filial')
-            
+
+        if operation == '3':
+            codfilial = request.COOKIES.get('codfilial')
+            cnpj = form['cnpj'].value()
+            status = form['status'].value()
+            nivelfilial = form['nivelfilial'].value()
+            codlocal = form['codlocal'].value()
+
+            print(codfilial, cnpj, status, nivelfilial, codlocal)
+
+            filial = Filial.objects.get(
+                codfilial=codfilial, dtencerramento=None)
+            filial.cnpj = cnpj
+
+            if filial.status == 2:
+                messages.error(
+                    request, "Não é permitida a edição de registros inativos")
+                return redirect('crud_filial')
+
+            filial.status = status
+            filial.nivelfilial = Nivelfilial.objects.get(
+                nivelfilial=nivelfilial)
+            filial.codlocal = Localidade.objects.get(codlocal=codlocal)
+
+            try:
+                filial.save()
+            except:
+                messages.error(request, "Ocorreu um erro ao editar a filial")
+                return redirect('crud_filial')
+            messages.success(request, "Filial editada com sucesso")
+            return redirect('crud_filial')
+
+        if operation == '4':
+            codfilial = request.COOKIES.get('codfilial')
+
+            filial = Filial.objects.get(codfilial=codfilial)
+
+            try:
+                usuario = Usuario.objects.get(filial=filial.codfilial)
+            except:
+                usuario = None
+
+            if usuario:
+                messages.error(
+                    request, "Exclusão não realizada a filial está sendo usada pelo usuário " + str(usuario.nome))
+                return redirect('crud_filial')
+            try:
+                filial.delete()
+            except:
+                messages.error(request, "Ocorreu um erro")
+                return redirect('crud_filial')
+            messages.success(request, "Exclusão realizada com sucesso.")
 
     else:
         filial = Filial.objects.all().order_by('cnpj')

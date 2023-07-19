@@ -46,6 +46,7 @@ $('#btn_visualizar')
                             }
                             // Atualizando valores para exclusão
                             document.cookie = 'operation=4' // Exclusão
+                            document.cookie = 'codfilial=' + codfilial // Código da filial
                             $('#ModalInclusaoLabel').text('Excluir Filial') // Título da tela
                             $('#id_btnok').text('Excluir') // Título do botão
                             $('#id_btnok').removeAttr('hidden') // Aparecer botão
@@ -75,6 +76,7 @@ $('#btn_visualizar')
                         }
                         // Atualizar operação que o usuário está realizando
                         document.cookie = 'operation=3'
+                        document.cookie = 'codfilial=' + codfilial
                         // Atualizar labels da tela
                         $('#ModalInclusaoLabel').text('Editar Filial')
                         $('#id_btnok').text('Salvar')
@@ -86,9 +88,7 @@ $('#btn_visualizar')
                         $('#id_codlocal').removeAttr('onchange')
                     }
                     // Bloquear campos não editaveis/demais campos para visualização
-                    // $('#id_cnpj').attr('readonly', 'readonly')
-                    // $('#id_login').attr('readonly', 'readonly')
-                    // $('#id_senha').attr('readonly', 'readonly')
+                    $('#id_cnpj').attr('readonly', 'readonly')
                     // Abrir tela modal
                     $('#ModalInclusao').modal('toggle')
                 })

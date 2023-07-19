@@ -34,7 +34,4 @@ def getFiliais(request):
     codfilial = request.GET.get('cod')
     branch = Filial.objects.get(codfilial=codfilial)
 
-    nf = branch.nivelfilial.nivelfilial
-    cl = branch.codlocal.codlocal
-
-    return JsonResponse({"cnpj": branch.cnpj, "dtinclusao": branch.dtinclusao, "dtencerramento": branch.dtencerramento, "status": branch.status, "nivelfilial": nf, "codlocal": cl})
+    return JsonResponse({"cnpj": branch.cnpj, "dtinclusao": branch.dtinclusao, "dtencerramento": branch.dtencerramento, "status": branch.status, "nivelfilial": branch.nivelfilial.nivelfilial, "codlocal": branch.codlocal.codlocal})
