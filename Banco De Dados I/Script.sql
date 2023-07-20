@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS filial(
 CREATE TABLE IF NOT EXISTS usuario(
    codUsuario SERIAL,
    nome char(256) NOT NULL,
-   cpf char(11) NOT NULL UNIQUE,
+   cpf char(11) NOT NULL,
    login char(256) NOT NULL,
    senha char(256) NOT NULL,
    "status" INTEGER NOT NULL,

@@ -4,41 +4,28 @@ $('input[type="checkbox"]').on('change', function () {
 })
 
 // Função chamada para os botões de Visualizar, editar e excluir
-$('#btn_visualizar')
-    .add('#btn_editar')
-    .add('#btn_apagar')
-    .on('click', function () {
+$('#btn_visualizar').add('#btn_editar').add('#btn_apagar').on('click', function () {
         // Pegar código selecionado
-        nivelfilial = $(
-            'input:checkbox[name=checkbox_branchLevels]:checked'
-        ).attr('id')
+        nivelfilial = $('input:checkbox[name=checkbox_branchLevels]:checked').attr('id')
         if (nivelfilial != null) {
             // Aqui é realizado uma requisição GET para o back-end para recuperar todas as informações do Nível de Filial
             // É passado o link "/request/nivelFilial" que cai no código /prog1/apps/requests/views.py, que retorna um JSon com as informações para a tela
             axios
-                .get('/request/nivelfilial', { params: { cod: nivelfilial } })
-                .then(response => {
+                .get('/request/nivelfilial', { params: { cod: nivelfilial } }).then(response => {
                     // Popular os fields com os dados retornados
                     $('#id_nivelfilial').val(response.data.nivelfilial)
-                    $('#id_descricao').val(response.data.descricao)
+                    $('#id_descricao').val(response.data.descricao.trim())
 
-                    if (
-                        this.id == 'btn_visualizar' ||
-                        this.id == 'btn_apagar'
-                    ) {
+                    if (this.id == 'btn_visualizar' || this.id == 'btn_apagar') {
                         if (this.id == 'btn_visualizar') {
                             // Atualizando os valores para visualização
                             document.cookie = 'operation=2' // Visualizar
-                            $('#ModalInclusaoLabel').text(
-                                'Visualizar Nível de Filial'
-                            ) // Título da tela
+                            $('#ModalInclusaoLabel').text('Visualizar Nível de Filial') // Título da tela
                             $('#id_btnok').attr('hidden', 'hidden') // Esconder botão
                         } else {
                             // Atualizando valores para exclusão
                             document.cookie = 'operation=4' // Exclusão
-                            $('#ModalInclusaoLabel').text(
-                                'Excluir Nível de Filial'
-                            ) // Título da tela
+                            $('#ModalInclusaoLabel').text('Excluir Nível de Filial') // Título da tela
                             $('#id_btnok').text('Excluir') // Título do botão
                             $('#id_btnok').removeAttr('hidden') // Aparecer botão
                         }

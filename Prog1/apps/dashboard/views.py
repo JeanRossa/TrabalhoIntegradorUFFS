@@ -131,17 +131,14 @@ def crud_usuario(request):
             usuario.nome = nome  # Atualizar nome
 
             if usuario.status == 2:  # Não deixa editar registros já inativos
-                messages.error(
-                    request, "Não é permitida a edição de registros inativos")
+                messages.error(request, "Não é permitida a edição de registros inativos")
                 return redirect('crud_usuario')
 
             # Expressões regulares, Variavel = ValorSeVerdadeiro if Condição else ValorSeFalso ----- Exemplo abaixo
             # maiorDeIdade = True if idade >= 18 else False
             codfil = int(codfil) if codfil != '' else ''
-            codfil_atual = usuario.filial.codfilial if (
-                not usuario.filial == None) else ''
-            nivel_atual = usuario.nivelvendedor.nivelvendedor if (
-                not usuario.nivelvendedor == None) else ''
+            codfil_atual = usuario.filial.codfilial if (not usuario.filial == None) else ''
+            nivel_atual = usuario.nivelvendedor.nivelvendedor if (not usuario.nivelvendedor == None) else ''
 
             # Mudanças que serão necessárias um novo registro para não perder os dados antigos
             if (codfil != codfil_atual and int(tipo) != 1) or (nivel != nivel_atual and int(tipo) == 3) or (int(tipo) != usuario.tipo):
@@ -153,8 +150,7 @@ def crud_usuario(request):
                 if tipo == '2':
                     nivel = None
                     if not codfil:
-                        messages.error(
-                            request, "Para cadastro de Gerentes é necessário informar o campo Filial")
+                        messages.error(request, "Para cadastro de Gerentes é necessário informar o campo Filial")
                         return redirect('crud_usuario')
                     else:
                         # Para salvar no banco um dado de uma FK, é necessário salvar a instancia e não a PK
@@ -162,14 +158,12 @@ def crud_usuario(request):
 
                 if tipo == '3':
                     if not nivel:
-                        messages.error(
-                            request, "Para cadastro de vendedores é necessário informar o campo Nivel")
+                        messages.error(request, "Para cadastro de vendedores é necessário informar o campo Nivel")
                         return redirect('crud_usuario')
                     else:
                         nivel = Nivelvendedor.objects.get(nivelvendedor=nivel)
                     if not codfil:
-                        messages.error(
-                            request, "Para cadastro de Vendedores é necessário informar o campo Filial")
+                        messages.error(request, "Para cadastro de Vendedores é necessário informar o campo Filial")
                         return redirect('crud_usuario')
                     else:
                         codfil = Filial.objects.get(codfilial=codfil)
@@ -181,8 +175,7 @@ def crud_usuario(request):
                 try:
                     usuario.save()
                 except:
-                    messages.error(
-                        request, "Ocorreu um erro ao editar o usuário, não é possível editar o mesmo CPF duas vezes ao dia")
+                    messages.error(request, "Ocorreu um erro ao editar o usuário, não é possível editar o mesmo CPF duas vezes ao dia")
                     return redirect('crud_usuario')
 
                 # Criar novo registro com os dados novos
@@ -421,6 +414,7 @@ def crud_filial(request):
                 messages.error(request, "Ocorreu um erro")
                 return redirect('crud_filial')
             messages.success(request, "Exclusão realizada com sucesso.")
+            return redirect('crud_filial')
 
     else:
         filial = Filial.objects.all().order_by('cnpj')
