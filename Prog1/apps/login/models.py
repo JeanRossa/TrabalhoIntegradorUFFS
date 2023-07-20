@@ -91,7 +91,6 @@ class Nivelfilial(models.Model):
     class Meta:
         managed = False
         db_table = 'nivelfilial'
-        unique_together = (('nivelfilial'),)
 
     def __str__(self):
         return self.nivelfilial + " - " + self.descricao

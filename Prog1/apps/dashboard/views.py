@@ -252,8 +252,7 @@ def crud_usuario(request):
 def crud_localidade(request):
 
     if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
-        messages.error(
-            request, "Você não tem permissão para acessar esta página")
+        messages.error(request, "Você não tem permissão para acessar esta página")
         return redirect('DashBoardADM')
 
     if request.method == 'POST':
@@ -264,16 +263,14 @@ def crud_localidade(request):
             cidade = form['cidade'].value()
             estado = form['estado'].value()
 
-            localidade = Localidade.objects.get(
-                cidade=cidade, estado=estado)
+            localidade = Localidade.objects.get(cidade=cidade, estado=estado)
             try:
                 filial = Filial.objects.get(codlocal=localidade.codlocal)
             except:
                 filial = None
 
             if filial:
-                messages.error(
-                    request, "Exclusão não realizada a localidade está sendo usada pela filial " + str(filial.codfilial))
+                messages.error(request, "Exclusão não realizada a localidade está sendo usada pela filial " + str(filial.codfilial))
                 return redirect('crud_localidade')
             try:
                 localidade.delete()
@@ -288,8 +285,7 @@ def crud_localidade(request):
                 try:
                     form.save()
                 except:
-                    messages.error(
-                        request, "Ocorreu um erro ao criar a localidade, não é possível incluir a mesma cidade e estado duas vezes")
+                    messages.error(request, "Ocorreu um erro ao criar a localidade, não é possível incluir a mesma cidade e estado duas vezes")
                     return redirect('crud_localidade')
                 messages.success(request, "Localidade incluida com sucesso")
                 return redirect('crud_localidade')
@@ -319,12 +315,14 @@ def crud_localidade(request):
                     print("Field Error:", field.name,  field.errors)
                     messages.error(request, field.errors)
                     return redirect('crud_localidade')
+            if form.non_field_errors:
+                messages.error(request, form.non_field_errors().as_json())
+                return redirect('crud_localidade')
 
     else:
         localidade = Localidade.objects.all()
         form = LocalidadeForm
         return render(request, 'crud_localidade.html', {"sites": localidade, "form": form})
-
 
 @login_required
 def crud_filial(request):
@@ -430,12 +428,11 @@ def crud_filial(request):
         # else:
         return render(request, 'crud_filial.html', {"branches": filial, "form": form})
 
-
+@login_required
 def crud_nivelfilial(request):
 
     if not request.user.groups.filter(name='Administrador').exists() and request.user.is_superuser == False:
-        messages.error(
-            request, "Você não tem permissão para acessar esta página")
+        messages.error(request, "Você não tem permissão para acessar esta página")
         return redirect('DashBoardADM')
 
     if request.method == 'POST':
@@ -449,68 +446,56 @@ def crud_nivelfilial(request):
                     nv = form['nivelfilial'].value()
 
                     nivelfilial = Nivelfilial.objects.filter(nivelfilial=nv)
-
                     if nivelfilial:
                         messages.error(request, "O nível de filial já existe")
                         return redirect('crud_nivelfilial')
+
                     newNivelFilial = form.save(commit=False)
                     newNivelFilial.save()
                     form.save()
 
-                    messages.success(
-                        request, "Nível de filial incluido com sucesso")
+                    messages.success(request, "Nível de filial incluido com sucesso")
                     return redirect('crud_nivelfilial')
-                    # Ocorreram erros nas validações de campo, retornar para o front-end os erros
                 else:
                     for field in form:
                         if field.errors:
                             print("Field Error:", field.name,  field.errors)
                             messages.error(request, field.errors)
-                            return redirect('crud_filial')
+                            return redirect('crud_nivelfilial')
 
             case '3':
-                codnv = request.COOKIES.get('nivelfilial')
-                nivelfilial = form['nivelfilial'].value()
+                codnv = request.COOKIES.get('codigo')
                 descricao = form['descricao'].value()
 
-                nivelFilial = Nivelfilial.objects.get(
-                    nivelfilial=codnv, descricao=None)
+                obj = Nivelfilial.objects.get(nivelfilial=codnv)
+                obj.descricao = descricao
+                obj.save()
+                return redirect('crud_nivelfilial')
 
-                nivelFilial.nivelfilial = nivelfilial
-                nivelFilial.descricao = descricao
-
-                try:
-                    nivelFilial.save()
-                except:
-                    messages.error(
-                        request, "Ocorreu um erro ao editar o nível de filial")
-                    return redirect('crud_nivelfilial')
-                messages.success(
-                    request, "Nível de filial editado com sucesso")
 
             case '4':
                 nivelFilial = form['nivelfilial'].value()
                 descricao = form['descricao'].value()
 
-                nv = Nivelfilial.objects.get(
-                    nivelfilial=nivelFilial, descricao=descricao)
+                nv = Nivelfilial.objects.get(nivelfilial=nivelFilial.strip())
 
                 try:
                     filial = Filial.objects.get(nivelfilial=nv.nivelfilial)
                 except:
                     filial = None
+
                 if filial:
-                    messages.error(
-                        request, "Exclusão não realizada o nível de filial está sendo usado pela filial " + str(filial.codfilial))
+                    messages.error(request, "Exclusão não realizada o nível de filial está sendo usado pela filial " + str(filial.codfilial))
                     return redirect('crud_nivelfilial')
+
                 try:
                     nv.delete()
                 except:
                     messages.error(request, "Ocorreu um erro")
                     return redirect('crud_nivelfilial')
-                messages.success(
-                    request, "Exclusão realizada com sucesso.")
 
+                messages.success(request, "Exclusão realizada com sucesso.")
+                return redirect('crud_nivelfilial')
     else:
 
         nivelFilial = Nivelfilial.objects.all()

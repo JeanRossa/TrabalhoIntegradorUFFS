@@ -68,11 +68,12 @@ $('#btn_visualizar')
 
 // Função chamada na inclusão
 $('#btn_incluir').click(function () {
-    $('#id_modalInclusaoLabel').text('Incluir Localidade')
+    $('#ModalInclusaoLabel').text('Incluir Localidade')
     $('#id_btnok').text('Salvar')
 
     document.cookie = 'operation=1'
 
+    $('#id_btnok').removeAttr('hidden')
     $('#id_cidade').removeAttr('readonly')
     $('#id_estado').removeAttr('onchange')
 

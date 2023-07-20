@@ -1,14 +1,15 @@
 from django import forms
 from apps.login.models import Usuario, Filial, Nivelvendedor, Localidade, Filial, Nivelfilial
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class FilialForm(forms.ModelForm):
 
     codlocal = forms.ModelChoiceField(label='Localidade', queryset=Localidade.objects.all(
-    ), widget=forms.Select(attrs={"class": "form-control"}), required=False)
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
 
     nivelfilial = forms.ModelChoiceField(label='Nivel da Filial', queryset=Nivelfilial.objects.all(
-    ), widget=forms.Select(attrs={"class": "form-control"}), required=False)
+    ), widget=forms.Select(attrs={"class": "form-control"}), required=True)
 
     class Meta:
         # Nesse caso, Usuario é a instancia do modelo que vem do arquivo models.py que foi configurado em Prog1/apps/login
@@ -74,6 +75,12 @@ class LocalidadeForm(forms.ModelForm):
             'cidade': forms.TextInput(attrs={'class': 'form-control'}),
             # Campo de Texto nome
             'estado': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecione o estado'}),
+        }
+
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "Localidade duplicada",
+            }
         }
 
 

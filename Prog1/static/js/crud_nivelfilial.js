@@ -55,8 +55,8 @@ $('#btn_visualizar')
                         $('#id_btnok').text('Salvar')
                         // Desbloquear campos editavies
                         $('#id_btnok').removeAttr('hidden')
-                        $('#id_nivelfilial').removeAttr('readonly')
                         $('#id_descricao').removeAttr('readonly')
+                        $('#id_nivelfilial').attr('readonly', 'readonly')
                     }
                     // Bloquear campos não editaveis/demais campos para visualização
                     // Abrir tela modal
@@ -69,19 +69,16 @@ $('#btn_visualizar')
 
 // Função chamada na inclusão
 $('#btn_incluir').click(function () {
-    $('#id_modalInclusaoLabel').text('Incluir Nível de Filial')
+    $('#ModalInclusaoLabel').text('Incluir Nível de Filial')
     $('#id_btnok').text('Salvar')
-
     document.cookie = 'operation=1'
 
+    $('#id_btnok').removeAttr('hidden')
     $('#id_nivelfilial').removeAttr('readonly')
     $('#id_descricao').removeAttr('readonly')
 
     $('#id_nivelfilial').val('').change()
     $('#id_descricao').val('').change()
-
-    $('#id_nivelfilial').val('')
-    $('#id_descricao').val('')
 
     $('#ModalInclusao').modal('toggle')
 })
